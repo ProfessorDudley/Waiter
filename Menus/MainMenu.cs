@@ -14,8 +14,6 @@ public partial class MainMenu : CanvasLayer
 
         ExitButton = GetNode<Button>("VBoxContainer/ExitButton"); 
         ExitButton.Pressed += OnPressedExit;
-
-        GD.Print(GameInstance.score);
     }
 
     private void OnPressedExit()

@@ -3,9 +3,9 @@ using System;
 
 public partial class GameInstance : Node
 {
-  public int score;
-  public GameInstance(int score)
+  public override void _Ready()
   {
-    GD.Print($"Score: {score}"); 
+    GD.PrintRich("[b]GameInstance.cs Loaded[/b]");
   }
 }
+ 

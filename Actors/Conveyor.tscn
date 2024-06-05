@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2nagmfx4oj3b"]
+
+[ext_resource type="Texture2D" uid="uid://c2pa2ue8gny3r" path="res://icon.svg" id="1_y0vob"]
+[ext_resource type="Script" path="res://Actors/Conveyor.cs" id="2_l73y2"]
+
+[node name="Conveyor" type="Sprite2D"]
+position = Vector2(86, 0)
+scale = Vector2(2.34375, 0.359375)
+skew = 0.657989
+texture = ExtResource("1_y0vob")
+script = ExtResource("2_l73y2")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(82.3467, 0)

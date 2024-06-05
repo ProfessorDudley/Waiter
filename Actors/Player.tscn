@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://cctngyic5v8q6"]
+
+[ext_resource type="Texture2D" uid="uid://c2pa2ue8gny3r" path="res://icon.svg" id="1_fc8te"]
+[ext_resource type="Script" path="res://Actors/Player.cs" id="1_tkim8"]
+
+[node name="Player" type="Node2D" node_paths=PackedStringArray("conveyors")]
+script = ExtResource("1_tkim8")
+conveyors = []
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_fc8te")

@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://d3muvu4mrjrg4"]
+
+[ext_resource type="Script" path="res://Globals/GameInstance.cs" id="1_0p0hx"]
+[ext_resource type="PackedScene" uid="uid://cctngyic5v8q6" path="res://Actors/Player.tscn" id="2_wj3v1"]
+[ext_resource type="PackedScene" uid="uid://b2nagmfx4oj3b" path="res://Actors/Conveyor.tscn" id="3_bcut3"]
+
+[node name="Game" type="Node"]
+script = ExtResource("1_0p0hx")
+
+[node name="Player" parent="." node_paths=PackedStringArray("conveyors") instance=ExtResource("2_wj3v1")]
+unique_name_in_owner = true
+position = Vector2(538, 438)
+conveyors = [NodePath("../Conveyor"), NodePath("../Conveyor2"), NodePath("../Conveyor3")]
+
+[node name="Conveyor" parent="." instance=ExtResource("3_bcut3")]
+position = Vector2(86, 67)
+
+[node name="Conveyor2" parent="." instance=ExtResource("3_bcut3")]
+position = Vector2(86, 175)
+ConveyorNumber = 1
+
+[node name="Conveyor3" parent="." instance=ExtResource("3_bcut3")]
+position = Vector2(86, 295)
+ConveyorNumber = 2
