@@ -3,35 +3,36 @@ using System;
 
 public partial class Player : Node2D
 {
-  [Export] public Conveyor[] conveyors;
+  [Export] private Marker2D[] conveyors;
   private int step = 0;
-
-	public int Step { get => step; set => step = Math.Clamp(value, 0, conveyors.Length-1); }
+	private int Step { get => step; set => step = Math.Clamp(value, 0, conveyors.Length-1); }
 
 
 	public override void _Ready()
 	{
-		Position = conveyors[Step].GetNode<Marker2D>("Marker2D").GlobalPosition;
+		Position = conveyors[Step].GlobalPosition;
 	}
 
 	public override void _Input(InputEvent @event) {
-	  if (@event.IsActionPressed("MoveUp"))
+	  if (@event.IsActionPressed("MoveUp") && Step != 0)
 	  {
-	  
-	  GD.Print("MoveUp");
 	  Step -= 1;
-		Marker2D marker = conveyors[step].GetNode<Marker2D>("Marker2D");
-		GD.Print(marker.GlobalPosition);
-	  Position = conveyors[Step].GetChild<Marker2D>(0).GlobalPosition;
-	  GD.Print(Step);
-
+	  Position = conveyors[Step].GlobalPosition;
+		GetNode<AudioStreamPlayer2D>("Steps").Play();
 	  }
-	  else if (@event.IsActionPressed("MoveDown"))
+	  else if (@event.IsActionPressed("MoveDown") && Step != conveyors.Length-1)
 	  {
-		GD.Print("MoveDown");
 		Step += 1;
-		Position = conveyors[Step].GetChild<Marker2D>(0).GlobalPosition;
-		GD.Print(Step);
+		Position = conveyors[Step].GlobalPosition;
+		GetNode<AudioStreamPlayer2D>("Steps").Play();
 	  }
+		if (Step == conveyors.Length-1)
+		{
+			GetNode<Sprite2D>("Sprite2D").Scale = new Vector2(-0.678f, 0.678f);
+		}
+		else
+		{
+			GetNode<Sprite2D>("Sprite2D").Scale = new Vector2(0.678f, 0.678f);
+		}
 	}
 }

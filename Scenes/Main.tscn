@@ -1,24 +1,38 @@
-[gd_scene load_steps=4 format=3 uid="uid://d3muvu4mrjrg4"]
+[gd_scene load_steps=6 format=3 uid="uid://d3muvu4mrjrg4"]
 
-[ext_resource type="Script" path="res://Globals/GameInstance.cs" id="1_0p0hx"]
+[ext_resource type="Script" path="res://Globals/GameInstance.cs" id="1_3yap1"]
 [ext_resource type="PackedScene" uid="uid://cctngyic5v8q6" path="res://Actors/Player.tscn" id="2_wj3v1"]
 [ext_resource type="PackedScene" uid="uid://b2nagmfx4oj3b" path="res://Actors/Conveyor.tscn" id="3_bcut3"]
+[ext_resource type="Texture2D" uid="uid://e6vi655pwmtc" path="res://Assets/Images/Game_and_Watch_Backdrop.PNG" id="4_ls3qk"]
+[ext_resource type="AudioStream" uid="uid://bniduuv6wwlbv" path="res://Assets/Audio/In_Game_Music.WAV" id="5_d7ywr"]
 
 [node name="Game" type="Node"]
-script = ExtResource("1_0p0hx")
+script = ExtResource("1_3yap1")
 
 [node name="Player" parent="." node_paths=PackedStringArray("conveyors") instance=ExtResource("2_wj3v1")]
 unique_name_in_owner = true
-position = Vector2(538, 438)
-conveyors = [NodePath("../Conveyor"), NodePath("../Conveyor2"), NodePath("../Conveyor3")]
+position = Vector2(720, 232)
+conveyors = [NodePath("../Conveyor"), NodePath("../Conveyor2"), NodePath("../Conveyor3"), NodePath("../Conveyor4")]
 
 [node name="Conveyor" parent="." instance=ExtResource("3_bcut3")]
-position = Vector2(86, 67)
+position = Vector2(520, 224)
 
 [node name="Conveyor2" parent="." instance=ExtResource("3_bcut3")]
-position = Vector2(86, 175)
-ConveyorNumber = 1
+position = Vector2(520, 337)
 
 [node name="Conveyor3" parent="." instance=ExtResource("3_bcut3")]
-position = Vector2(86, 295)
-ConveyorNumber = 2
+position = Vector2(520, 457)
+
+[node name="Conveyor4" parent="." instance=ExtResource("3_bcut3")]
+position = Vector2(592, 552)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -100
+position = Vector2(439.341, 324.5)
+scale = Vector2(0.32373, 0.32373)
+texture = ExtResource("4_ls3qk")
+metadata/_edit_lock_ = true
+
+[node name="Music" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_d7ywr")
+autoplay = true
