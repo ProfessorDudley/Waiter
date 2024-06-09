@@ -7,23 +7,25 @@ public partial class Player : Node2D
 	[Export] private WaiterLocation[] WaiterLocations;
 	private int step = 0;
 	private int Step { get => step; set => step = Math.Clamp(value, 0, WaiterLocations.Length - 1); }
-	private Area2D area2D;
+	private Area2D collider;
 
 
 	public override void _Ready()
 	{
 		Position = WaiterLocations[Step].GlobalPosition;
-		area2D = GetNode<Area2D>("Sprite2D/FoodCollider");
-		GD.Print(area2D.Name);
-        area2D.BodyEntered += OnBodyEntered;
+		collider = GetNode<Area2D>("Sprite2D/FoodCollider");
+		GD.Print(collider.Name);
+        collider.AreaEntered += OnAreaEntered;
 	}
 
-	private void OnBodyEntered(Node body)
+	private void OnAreaEntered(Node2D body)
 	{
-					GD.Print("Body Entered");
-					// Debug.Assert(body.GetType() == typeof(Food), "Body must be of type Food");
-					// body.Reparent(GetNode<Marker2D>("FoodRoot"));
-					// ((Food)body).Speed = 0;
+					Debug.Assert(body.GetParent().GetType() == typeof(Food), "Body must be of type Food");
+					Food food = (Food)body.GetParent();
+					// Need to defer Reparent call because physics apparently?
+					food.CallDeferred("reparent", GetNode<Marker2D>("Sprite2D/FoodRoot"), false);
+					food.Position = new(0, 0);
+					food.Speed = 0;
 	}	
 
 	public override void _Input(InputEvent @event)

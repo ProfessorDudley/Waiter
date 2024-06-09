@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://d3muvu4mrjrg4"]
+[gd_scene load_steps=9 format=3 uid="uid://d3muvu4mrjrg4"]
 
 [ext_resource type="Script" path="res://Globals/GameInstance.cs" id="1_3yap1"]
 [ext_resource type="PackedScene" uid="uid://cctngyic5v8q6" path="res://Actors/Player.tscn" id="2_wj3v1"]
@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://bniduuv6wwlbv" path="res://Assets/Audio/In_Game_Music.WAV" id="5_d7ywr"]
 [ext_resource type="PackedScene" uid="uid://bg6wc6bq4h788" path="res://Actors/Conveyors.tscn" id="6_l7q1m"]
 [ext_resource type="Texture2D" uid="uid://cqdlo4o132j05" path="res://Assets/Images/Game_and_Watch_Case.PNG" id="7_ikjti"]
+[ext_resource type="PackedScene" uid="uid://boib3onqal1s7" path="res://Actors/Food.tscn" id="8_mc1rr"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_3yap1")
@@ -58,3 +59,6 @@ scale = Vector2(0.630314, 0.630314)
 position = Vector2(754.169, 270.645)
 scale = Vector2(0.630314, 0.630314)
 WaiterLocations = [NodePath("../Belt1"), NodePath("../Belt2"), NodePath("../Belt3"), NodePath("../Table")]
+
+[node name="Food" parent="." instance=ExtResource("8_mc1rr")]
+position = Vector2(535, 226)
