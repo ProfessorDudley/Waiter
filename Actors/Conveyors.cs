@@ -4,7 +4,7 @@ using System;
 public partial class Conveyors : Node2D
 {
   [Export] private float[] Belts = { 224f, 296f, 370f };
-  private Timer timer;
+  public Timer timer;
   private readonly Random random = new();
 
   public override void _Ready()

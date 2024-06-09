@@ -9,11 +9,6 @@ public partial class WaiterLocation : Marker2D, IConveyor
   public void OnConveyorOverlap(Node body)
   {
     Debug.Assert(body.GetType() == typeof(Player), "body must be the player");
-    if (isTable)
-    {
-
-      GameInstance.AwardPoints();
-    }
   }
 
 }

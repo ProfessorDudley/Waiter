@@ -6,7 +6,7 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vpr4w"]
 radius = 8.0
 
-[node name="Food" type="Node2D"]
+[node name="Food" type="Node2D" groups=["Foods"]]
 script = ExtResource("1_day8m")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

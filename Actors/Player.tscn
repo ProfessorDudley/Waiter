@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://cctngyic5v8q6"]
+[gd_scene load_steps=7 format=3 uid="uid://cctngyic5v8q6"]
 
 [ext_resource type="Script" path="res://Actors/Player.cs" id="1_tkim8"]
 [ext_resource type="Texture2D" uid="uid://pxdmsypbuie2" path="res://Assets/Images/Waiter.PNG" id="2_36k7l"]
 [ext_resource type="AudioStream" uid="uid://co6i85bj1kk6g" path="res://Assets/Audio/Sprite_Steps.WAV" id="3_c8spy"]
 [ext_resource type="AudioStream" uid="uid://dcql0nrbh511y" path="res://Assets/Audio/Food_Delivered.WAV" id="4_dejgs"]
+[ext_resource type="AudioStream" uid="uid://c05v2snl3ehp8" path="res://Assets/Audio/Plate_Pick_Up.WAV" id="5_rucs0"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sjamf"]
 radius = 16.0
@@ -37,4 +38,8 @@ bus = &"SFX"
 
 [node name="AddPoints" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_dejgs")
+bus = &"SFX"
+
+[node name="Pickup" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_rucs0")
 bus = &"SFX"

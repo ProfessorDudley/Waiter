@@ -8,25 +8,30 @@ public partial class Player : Node2D
 	private int step = 0;
 	private int Step { get => step; set => step = Math.Clamp(value, 0, WaiterLocations.Length - 1); }
 	private Area2D collider;
+	private bool isHoldingFood = false;
+	private Food food;
 
 
 	public override void _Ready()
 	{
 		Position = WaiterLocations[Step].GlobalPosition;
 		collider = GetNode<Area2D>("Sprite2D/FoodCollider");
-		GD.Print(collider.Name);
-        collider.AreaEntered += OnAreaEntered;
+		collider.AreaEntered += OnAreaEntered;
 	}
 
 	private void OnAreaEntered(Node2D body)
 	{
-					Debug.Assert(body.GetParent().GetType() == typeof(Food), "Body must be of type Food");
-					Food food = (Food)body.GetParent();
-					// Need to defer Reparent call because physics apparently?
-					food.CallDeferred("reparent", GetNode<Marker2D>("Sprite2D/FoodRoot"), false);
-					food.Position = new(0, 0);
-					food.Speed = 0;
-	}	
+		// Handle attaching food to waiter.
+		Debug.Assert(body.GetParent().GetType() == typeof(Food), "Body must be of type Food");
+		food = (Food)body.GetParent();
+		// Need to defer Reparent call because physics apparently?
+		food.CallDeferred("reparent", GetNode<Marker2D>("Sprite2D/FoodRoot"), false);
+		food.Position = new(0, 0);
+		food.Speed = 0;
+		isHoldingFood = true;
+		GetNode<AudioStreamPlayer2D>("Pickup").Play();
+		collider.AreaEntered -= OnAreaEntered;
+	}
 
 	public override void _Input(InputEvent @event)
 	{
@@ -49,7 +54,18 @@ public partial class Player : Node2D
 		// Handle setting player facing direction depending on which belt they are at.
 		if (Step == WaiterLocations.Length - 1)
 		{
+			// Waiter is at table
 			GetNode<Sprite2D>("Sprite2D").Scale = new Vector2(-0.678f, 0.678f);
+
+// Handle detatch food from waiter
+			if (isHoldingFood)
+			{
+			isHoldingFood = false;
+			collider.AreaEntered += OnAreaEntered;
+			food.QueueFree();
+			GetNode<AudioStreamPlayer2D>("AddPoints").Play();
+			GameInstance.AwardPoints();
+			}
 		}
 		else
 		{

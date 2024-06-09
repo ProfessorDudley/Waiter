@@ -24,7 +24,7 @@ public partial class MainMenu : CanvasLayer
 
     private void OnPressedPlay()
     {
-        GetTree().ChangeSceneToFile("res://scenes/playground.tscn");
+        GetTree().ChangeSceneToFile("res://Scenes/Main.tscn");
     }
 
 }
