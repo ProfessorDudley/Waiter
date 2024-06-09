@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://bg6wc6bq4h788"]
+
+[ext_resource type="Script" path="res://Actors/Conveyors.cs" id="1_fu58x"]
+[ext_resource type="Texture2D" uid="uid://b3vbr23653d55" path="res://Assets/Images/belt_machines.PNG" id="2_8qdf7"]
+
+[node name="Conveyors" type="Node2D"]
+script = ExtResource("1_fu58x")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(442.668, 326)
+scale = Vector2(0.326172, 0.326172)
+texture = ExtResource("2_8qdf7")
+
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 2.5
+autostart = true

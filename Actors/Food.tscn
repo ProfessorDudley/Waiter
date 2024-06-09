@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://boib3onqal1s7"]
+
+[ext_resource type="Script" path="res://Actors/Food.cs" id="1_day8m"]
+[ext_resource type="Texture2D" uid="uid://ceqk6qd6kkl6g" path="res://Assets/Images/salad.PNG" id="1_qmhma"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vpr4w"]
+radius = 8.0
+
+[node name="Food" type="Node2D"]
+script = ExtResource("1_day8m")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("1_qmhma")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-5, 5)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_vpr4w")
