@@ -7,20 +7,24 @@ public partial class Food : Node2D
 	private GameInstance game;
 	private Player player;
 
+	public bool isAttached;
+
 	public override void _Ready()
 	{
 		game = GetNode<GameInstance>("/root/Game");
-		
+
 	}
 
 	public override void _Process(double delta)
 	{
-	  Vector2 update = GlobalPosition;
-	  update.X += (float)(delta * Speed);
-	  GlobalPosition = update;
-		if (GlobalPosition.X > 610)
+		if (isAttached || GlobalPosition.X < 610) 
 		{
+			Vector2 update = GlobalPosition;
+			update.X += (float)(delta * Speed);
+			GlobalPosition = update;
+		} else {
 			game.GameOver();
 		}
+
 	}
 }

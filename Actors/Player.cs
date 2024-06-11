@@ -8,7 +8,7 @@ public partial class Player : Node2D
 	private int step = 0;
 	private int Step { get => step; set => step = Math.Clamp(value, 0, WaiterLocations.Length - 1); }
 	private Area2D collider;
-	private bool isHoldingFood = false;
+	public bool isHoldingFood = false;
 	private Food food;
 
 
@@ -29,6 +29,7 @@ public partial class Player : Node2D
 		food.Position = new(0, 0);
 		food.Speed = 0;
 		isHoldingFood = true;
+		food.isAttached = true;
 		GetNode<AudioStreamPlayer2D>("Pickup").Play();
 		collider.AreaEntered -= OnAreaEntered;
 	}

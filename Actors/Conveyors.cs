@@ -18,6 +18,7 @@ public partial class Conveyors : Node2D
   {
     Food instance = (Food)GD.Load<PackedScene>("res://Actors/Food.tscn").Instantiate();
     instance.Position = new Vector2(310, Belts[random.Next(0, 3)]);
+    instance.AddToGroup("Foods");
     GetTree().Root.AddChild(instance);
     if (!(timer.WaitTime <= 1.0))
     {

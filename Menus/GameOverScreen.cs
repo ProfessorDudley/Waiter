@@ -16,5 +16,6 @@ public partial class GameOverScreen : Control
     private void OnPressedButton()
     {
         GetTree().ChangeSceneToFile("res://Menus/MainMenu.tscn");
+        QueueFree();
     }
 }
