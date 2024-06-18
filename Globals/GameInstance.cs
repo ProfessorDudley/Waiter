@@ -3,22 +3,16 @@ using System;
 
 public partial class GameInstance : Node
 {
-  private static int Score = 0;
+  public static int Score = 0;
+  private static int HighScore = 0;
 
 
   public override void _Ready()
   {
     GD.PrintRich("[b]GameInstance.cs Loaded[/b]");
+    GetNode<Label>("%HighScore").Text = HighScore.ToString();
 
   }
-
-  // public override void _Input(InputEvent @event)
-  // {
-  //     if (@event.IsActionPressed("ui_accept"))
-  //     {
-  //       GameOver();
-  //     }
-  // }
 
   public static void AwardPoints()
   {
@@ -28,6 +22,8 @@ public partial class GameInstance : Node
 
   public void GameOver()
   {
+    GetNode<AnimatedSprite2D>("/root/Game/Player/AnimatedSprite2D").Animation = "fail";
+    if (Score > HighScore) HighScore = Score;
     Node instance = GD.Load<PackedScene>("res://Menus/GameOverScreen.tscn").Instantiate();
     GetTree().Root.AddChild(instance);
     GetNode<Conveyors>("/root/Game/Conveyors").timer.Stop();

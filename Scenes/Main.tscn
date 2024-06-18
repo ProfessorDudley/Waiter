@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://d3muvu4mrjrg4"]
 
 [ext_resource type="Script" path="res://Globals/GameInstance.cs" id="1_3yap1"]
-[ext_resource type="PackedScene" uid="uid://cctngyic5v8q6" path="res://Actors/Player.tscn" id="2_wj3v1"]
+[ext_resource type="PackedScene" uid="uid://bxvarng0iket0" path="res://Actors/Player.tscn" id="2_wj3v1"]
 [ext_resource type="Texture2D" uid="uid://e6vi655pwmtc" path="res://Assets/Images/Game_and_Watch_Backdrop.PNG" id="4_ls3qk"]
 [ext_resource type="Script" path="res://Actors/WaiterLocation.cs" id="5_4mo6y"]
 [ext_resource type="AudioStream" uid="uid://bniduuv6wwlbv" path="res://Assets/Audio/In_Game_Music.WAV" id="5_d7ywr"]
@@ -13,47 +13,72 @@ script = ExtResource("1_3yap1")
 
 [node name="Background" type="Sprite2D" parent="."]
 z_index = -100
-position = Vector2(577, 328)
-scale = Vector2(0.204052, 0.204051)
+position = Vector2(200, 48)
+scale = Vector2(0.0937042, 0.09375)
 texture = ExtResource("4_ls3qk")
+offset = Vector2(-768.375, 512)
 
 [node name="Music" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_d7ywr")
 autoplay = true
 
 [node name="GameCase" type="Sprite2D" parent="."]
+visible = false
 z_index = 200
 position = Vector2(576, 337)
 scale = Vector2(0.850296, 0.850296)
 texture = ExtResource("7_ikjti")
 
 [node name="Belt1" type="Marker2D" parent="."]
-position = Vector2(628.106, 265.602)
+position = Vector2(152, 56)
 scale = Vector2(0.630314, 0.630314)
 script = ExtResource("5_4mo6y")
 
 [node name="Belt2" type="Marker2D" parent="."]
-position = Vector2(628.106, 336.828)
+position = Vector2(152, 88)
 scale = Vector2(0.630314, 0.630314)
 script = ExtResource("5_4mo6y")
 
 [node name="Belt3" type="Marker2D" parent="."]
-position = Vector2(628.106, 412.465)
+position = Vector2(152, 120)
 scale = Vector2(0.630314, 0.630314)
 script = ExtResource("5_4mo6y")
 
 [node name="Table" type="Marker2D" parent="."]
-position = Vector2(673.489, 472.345)
+position = Vector2(176, 152)
 scale = Vector2(0.630314, 0.630314)
 script = ExtResource("5_4mo6y")
 isTable = true
 
 [node name="Conveyors" parent="." instance=ExtResource("6_l7q1m")]
+visible = false
 z_index = 100
 position = Vector2(300.343, 124.412)
 scale = Vector2(0.630314, 0.630314)
 
 [node name="Player" parent="." node_paths=PackedStringArray("WaiterLocations") instance=ExtResource("2_wj3v1")]
-position = Vector2(754, 271)
+position = Vector2(192, 56)
 scale = Vector2(0.630314, 0.630314)
 WaiterLocations = [NodePath("../Belt1"), NodePath("../Belt2"), NodePath("../Belt3"), NodePath("../Table")]
+
+[node name="Score" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+z_index = 500
+offset_left = 990.0
+offset_top = 195.0
+offset_right = 1076.0
+offset_bottom = 221.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "0"
+
+[node name="HighScore" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+z_index = 500
+offset_left = 990.0
+offset_top = 94.0
+offset_right = 1076.0
+offset_bottom = 120.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "0"
