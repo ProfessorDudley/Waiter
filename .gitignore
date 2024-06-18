@@ -4,4 +4,4 @@ Assets/
 *.lnk
 Bin/
 .vscode/
-*.cfg
+export_presets.cfg

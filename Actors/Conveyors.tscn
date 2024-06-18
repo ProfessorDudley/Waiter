@@ -1,16 +1,75 @@
-[gd_scene load_steps=3 format=3 uid="uid://bg6wc6bq4h788"]
+[gd_scene load_steps=5 format=3 uid="uid://bg6wc6bq4h788"]
 
 [ext_resource type="Script" path="res://Actors/Conveyors.cs" id="1_fu58x"]
-[ext_resource type="Texture2D" uid="uid://b3vbr23653d55" path="res://Assets/Images/belt_machines.PNG" id="2_8qdf7"]
+[ext_resource type="Texture2D" uid="uid://bf0oexafrr2a0" path="res://Assets/Images/Conveyor.png" id="3_hn2kq"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wevcw"]
+texture = ExtResource("3_hn2kq")
+texture_region_size = Vector2i(32, 32)
+use_texture_padding = false
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_rmxyl"]
+tile_size = Vector2i(32, 32)
+sources/1 = SubResource("TileSetAtlasSource_wevcw")
 
 [node name="Conveyors" type="Node2D"]
 script = ExtResource("1_fu58x")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(442.668, 326)
-scale = Vector2(0.326172, 0.326172)
-texture = ExtResource("2_8qdf7")
-
 [node name="SpawnTimer" type="Timer" parent="."]
 wait_time = 2.5
 autostart = true
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_rmxyl")
+format = 2
+layer_0/name = "Default"
+layer_0/tile_data = PackedInt32Array(0, 1, 0, 1, 131073, 0, 4, 196609, 0, 3, 131073, 0, 2, 131073, 0)
+layer_1/name = "Covers"
+layer_1/enabled = true
+layer_1/modulate = Color(1, 1, 1, 1)
+layer_1/y_sort_enabled = false
+layer_1/y_sort_origin = 0
+layer_1/z_index = 200
+layer_1/tile_data = PackedInt32Array(0, 65537, 0)
+
+[node name="Shadow" type="TileMap" parent="TileMap"]
+visible = false
+position = Vector2(1, -1)
+tile_set = SubResource("TileSet_rmxyl")
+format = 2
+layer_0/name = "Default"
+layer_0/modulate = Color(0, 0, 0, 1)
+layer_0/z_index = -1
+layer_0/tile_data = PackedInt32Array(0, 1, 0, 1, 131073, 0, 4, 196609, 0, 3, 131073, 0, 2, 131073, 0)
+
+[node name="TileMap2" type="TileMap" parent="."]
+position = Vector2(0, 34)
+tile_set = SubResource("TileSet_rmxyl")
+format = 2
+layer_0/name = "Default"
+layer_0/tile_data = PackedInt32Array(0, 1, 0, 1, 131073, 0, 4, 196609, 0, 3, 131073, 0, 2, 131073, 0)
+layer_1/name = "Covers"
+layer_1/enabled = true
+layer_1/modulate = Color(1, 1, 1, 1)
+layer_1/y_sort_enabled = false
+layer_1/y_sort_origin = 0
+layer_1/z_index = 200
+layer_1/tile_data = PackedInt32Array(0, 65537, 0)
+
+[node name="TileMap3" type="TileMap" parent="."]
+position = Vector2(0, 68)
+tile_set = SubResource("TileSet_rmxyl")
+format = 2
+layer_0/name = "Default"
+layer_0/tile_data = PackedInt32Array(0, 1, 0, 1, 131073, 0, 4, 196609, 0, 3, 131073, 0, 2, 131073, 0)
+layer_1/name = "Covers"
+layer_1/enabled = true
+layer_1/modulate = Color(1, 1, 1, 1)
+layer_1/y_sort_enabled = false
+layer_1/y_sort_origin = 0
+layer_1/z_index = 200
+layer_1/tile_data = PackedInt32Array(0, 65537, 0)

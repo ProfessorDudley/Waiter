@@ -12,19 +12,19 @@ public partial class Food : Node2D
 	public override void _Ready()
 	{
 		game = GetNode<GameInstance>("/root/Game");
-
 	}
 
-	public override void _Process(double delta)
+
+  public void AdvanceStep()
 	{
-		if (isAttached || GlobalPosition.X < 610) 
+		GD.Print("Advance!");
+		GD.Print(GlobalPosition.X);
+		
+		if (isAttached || GlobalPosition.X <= 118.0f) 
 		{
-			Vector2 update = GlobalPosition;
-			update.X += (float)(delta * Speed);
-			GlobalPosition = update;
+			Position += new Vector2(26.0f, 0.0f);
 		} else {
 			game.GameOver();
 		}
-
 	}
 }
