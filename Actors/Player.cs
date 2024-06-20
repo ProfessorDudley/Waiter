@@ -55,6 +55,8 @@ public partial class Player : Node2D
 			GetNode<AudioStreamPlayer2D>("AddPoints").Play();
 			GameInstance.AwardPoints();
 			GetNode<Label>("%Score").Text = GameInstance.Score.ToString();
+			
+		GetNode<AnimatedSprite2D>("AnimatedSprite2D").Animation = "default";
 			}
 		}
 		else
@@ -69,12 +71,12 @@ public partial class Player : Node2D
 		// Handle attaching food to waiter.
 		Debug.Assert(body.GetParent().GetType() == typeof(Food), "Body must be of type Food");
 		food = (Food)body.GetParent();
+		
 		// Need to defer Reparent call because physics apparently?
 		food.CallDeferred("reparent", GetNode<Marker2D>("FoodRoot"), false);
 		food.Position = new(0, 0);
-		food.Speed = 0;
 		isHoldingFood = true;
-		food.isAttached = true;
+		food.IsAttached = true;
 		GetNode<AudioStreamPlayer2D>("Pickup").Play();
 		collider.AreaEntered -= OnAreaEntered;
 		GetNode<AnimatedSprite2D>("AnimatedSprite2D").Animation = "carry";

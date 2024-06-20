@@ -2,25 +2,25 @@
 
 [ext_resource type="Script" path="res://Actors/Player.cs" id="1_tkim8"]
 [ext_resource type="Texture2D" uid="uid://pxdmsypbuie2" path="res://Assets/Images/WaiterClassic.PNG" id="2_hs6s1"]
+[ext_resource type="Texture2D" uid="uid://bdmr4rm3oac54" path="res://Assets/Images/Player.png" id="2_w1wvt"]
 [ext_resource type="AudioStream" uid="uid://co6i85bj1kk6g" path="res://Assets/Audio/Sprite_Steps.WAV" id="3_c8spy"]
 [ext_resource type="AudioStream" uid="uid://dcql0nrbh511y" path="res://Assets/Audio/Food_Delivered.WAV" id="4_dejgs"]
 [ext_resource type="AudioStream" uid="uid://c05v2snl3ehp8" path="res://Assets/Audio/Plate_Pick_Up.WAV" id="5_rucs0"]
-[ext_resource type="Texture2D" uid="uid://bdmr4rm3oac54" path="res://Assets/Images/Player-Sheet.png" id="6_8mg3n"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m7w88"]
-atlas = ExtResource("6_8mg3n")
+atlas = ExtResource("2_w1wvt")
 region = Rect2(32, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7bjuy"]
-atlas = ExtResource("6_8mg3n")
+atlas = ExtResource("2_w1wvt")
 region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6grpj"]
-atlas = ExtResource("6_8mg3n")
+atlas = ExtResource("2_w1wvt")
 region = Rect2(16, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sxcru"]
-atlas = ExtResource("6_8mg3n")
+atlas = ExtResource("2_w1wvt")
 region = Rect2(48, 0, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_tpi4f"]
@@ -69,10 +69,8 @@ flip_h = true
 
 [node name="FoodRoot" type="Marker2D" parent="."]
 position = Vector2(0, -8)
-scale = Vector2(1, 1)
 
 [node name="FoodCollider" type="Area2D" parent="."]
-scale = Vector2(1, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FoodCollider"]
 position = Vector2(-3.8147e-05, -16)
