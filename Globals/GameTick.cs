@@ -7,9 +7,9 @@ public partial class GameTick : Timer
   {
     // Confirm setup for timer.
     ProcessCallback = TimerProcessCallback.Idle;
-    WaitTime = 2.5;
+    WaitTime = 2.0f;
     OneShot = false;
-    Autostart = true;
+    Autostart = false;
 
     // Set up timer callback to speed up the conveyors.
     Timeout += SpeedUp;
@@ -22,7 +22,7 @@ public partial class GameTick : Timer
   {
     if (!(WaitTime <= 0.9f))
     {
-      WaitTime = Math.Round(WaitTime -= 0.05f, 2);
+      WaitTime = Math.Round(WaitTime -= 0.025f, 3);
     }
 
     GD.Print(WaitTime);

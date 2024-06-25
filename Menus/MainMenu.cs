@@ -9,10 +9,10 @@ public partial class MainMenu : CanvasLayer
     public override void _Ready()
     {
         // Setup buttons and their events
-        PlayButton = GetNode<Button>("VBoxContainer/PlayButton");
+        PlayButton = GetNode<Button>("%PlayButton");
         PlayButton.Pressed += OnPressedPlay;
 
-        ExitButton = GetNode<Button>("VBoxContainer/ExitButton"); 
+        ExitButton = GetNode<Button>("%ExitButton"); 
         ExitButton.Pressed += OnPressedExit;
     }
 
@@ -24,7 +24,7 @@ public partial class MainMenu : CanvasLayer
 
     private void OnPressedPlay()
     {
-        GetTree().ChangeSceneToFile("res://Scenes/Main.tscn");
+        GetTree().ChangeSceneToFile("res://Scenes/Game.tscn");
     }
 
 }

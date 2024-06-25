@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class GameOverScreen : Control
+public partial class GameOverScreen : CanvasLayer
 {
   private Button MenuButton;
 
@@ -9,7 +9,7 @@ public partial class GameOverScreen : Control
     {
         GetNode<Label>("%Score").Text = $"Score: {GameInstance.Score}";
         // Setup buttons and their events
-        MenuButton = GetNode<Button>("VBoxContainer/Button");
+        MenuButton = GetNode<Button>("%Button");
         MenuButton.Pressed += OnPressedButton;
     }
 

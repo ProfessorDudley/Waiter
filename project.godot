@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="Waiter!"
-run/main_scene="res://Scenes/Main.tscn"
+run/main_scene="res://Menus/MainMenu.tscn"
 config/features=PackedStringArray("4.1", "C#", "Forward Plus")
 config/icon="res://icon.svg"
+
+[audio]
+
+buses/default_bus_layout="res://Globals/MainBusLayout.tres"
 
 [autoload]
 
@@ -21,14 +25,21 @@ GameTick="*res://Globals/GameTick.cs"
 
 [display]
 
-window/size/viewport_width=1024
-window/size/viewport_height=768
+window/size/viewport_width=256
+window/size/viewport_height=192
+window/size/resizable=false
+window/size/borderless=true
+window/size/window_width_override=1024
+window/size/window_height_override=768
 window/stretch/mode="canvas_items"
-window/stretch/scale=4.0
 
 [dotnet]
 
 project/assembly_name="Waiter!"
+
+[gui]
+
+theme/custom="res://Assets/Theme_Gameboy.tres"
 
 [input]
 

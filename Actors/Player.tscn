@@ -84,9 +84,12 @@ texture = ExtResource("2_hs6s1")
 
 [node name="Steps" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_c8spy")
+bus = &"SFX"
 
 [node name="AddPoints" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_dejgs")
+bus = &"SFX"
 
 [node name="Pickup" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_rucs0")
+bus = &"SFX"
