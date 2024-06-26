@@ -10,6 +10,7 @@ public partial class Player : Node2D
 	private Area2D collider;
 	public bool isHoldingFood = false;
 	private Food food;
+	private int hatCounter = 0;
 
 
 	public override void _Ready()
@@ -58,8 +59,15 @@ public partial class Player : Node2D
 				};
 				GetTree().Root.AddChild(particle);
 				food.QueueFree();
+
+				HatTopper topper = new()
+				{
+					GlobalPosition = new(216, 143 - (hatCounter * 2))
+				};
 				GetNode<AudioStreamPlayer2D>("AddPoints").Play();
 				GameInstance.AwardPoints();
+				GetTree().Root.AddChild(topper);
+				hatCounter++;
 				GetNode<Label>("%Score").Text = GameInstance.Score.ToString();
 
 				GetNode<AnimatedSprite2D>("AnimatedSprite2D").Animation = "default";
