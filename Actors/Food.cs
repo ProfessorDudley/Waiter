@@ -6,7 +6,7 @@ public partial class Food : Node2D
 	GameTick tick;
 	private readonly Random random = new();
 	private bool isAttached;
-	// public string foodName;
+	public string foodName;
 
 	public override void _Ready()
 	{
@@ -14,6 +14,7 @@ public partial class Food : Node2D
 	tick.Timeout += AdvanceStep;
 	random.Next(0,3);
 			GetNode<AnimatedSprite2D>("AnimatedSprite2D").Animation = new[] {"bowl", "drink", "plate",}[random.Next(0,3)];
+			foodName = GetNode<AnimatedSprite2D>("AnimatedSprite2D").Animation;
 	}
 
 

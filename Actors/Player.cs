@@ -66,53 +66,37 @@ public partial class Player : Node2D
 						break;
 					case 3:
 						GameInstance.AwardPoints(50);
+						// Grow Hat
+						HatTopper topper = new()
+						{
+							GlobalPosition = new(216, 143 - (hatCounter * 2))
+						};
+						GetTree().Root.AddChild(topper);
+						hatCounter++;
 						break;
 					default:
 						GD.PrintErr("This should never happen!");
 						break;
 				}
-				foreach (Food food in Tray)
-				{
-					GetNode<AudioStreamPlayer2D>("AddPoints").Play();
-					food.QueueFree();
-				}
-				Tray.Clear();
-
-				// Reset
-				// collider.AreaEntered += OnAreaEntered;
-				GetNode<AnimatedSprite2D>("AnimatedSprite2D").Animation = "default";
-
-
-
-
-
-
-
-
-
 				// Create Dollar Particle
 				Particle particle = new()
 				{
 					GlobalPosition = new(200, 152),
 				};
 				GetTree().Root.AddChild(particle);
-
-				// Grow Hat
-				HatTopper topper = new()
-				{
-					GlobalPosition = new(216, 143 - (hatCounter * 2))
-				};
-				GetTree().Root.AddChild(topper);
-				hatCounter++;
-
-
-
-
-
+				GetNode<AudioStreamPlayer2D>("AddPoints").Play();
 				// Update Score
 				GetNode<Label>("%Score").Text = GameInstance.Score.ToString();
 
+				// Clear the tray
+				foreach (Food food in Tray)
+				{
+					food.QueueFree();
+				}
+				Tray.Clear();
 
+				// Reset
+				GetNode<AnimatedSprite2D>("AnimatedSprite2D").Animation = "default";
 			}
 		}
 		else
@@ -135,11 +119,10 @@ public partial class Player : Node2D
 			{
 				// Check each food on the tray and compare it to the 
 				// new food item. If it matches, return from the function.
-				if (food.GetNode<AnimatedSprite2D>("AnimatedSprite2D").Animation == f.GetNode<AnimatedSprite2D>("AnimatedSprite2D").Animation) return;
+				if (food.foodName == f.foodName) return;
 			}
 			collider.AreaEntered -= OnAreaEntered;
 			Tray.Add(food);
-			GD.Print(food.GetNode<AnimatedSprite2D>("AnimatedSprite2D").Animation);
 			food.Attach();
 			// Need to defer Reparent call because physics apparently?
 			food.CallDeferred("reparent", GetNode<Marker2D>("FoodRoot"), false);
