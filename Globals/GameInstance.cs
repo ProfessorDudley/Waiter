@@ -15,10 +15,11 @@ public partial class GameInstance : Node
 
 	}
 
-	public static void AwardPoints()
+	public static void AwardPoints(int points = 10)
 	{
-		Score += 10;
-		GD.PrintRich(Score);
+		Score += points;
+		GD.Print($"Added {points} points!");
+		GD.Print($"Points: {Score}");
 	}
 
 	public void GameOver()

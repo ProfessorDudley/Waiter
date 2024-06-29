@@ -25,7 +25,7 @@ public partial class GameTick : Timer
       WaitTime = Math.Round(WaitTime -= 0.025f, 3);
     }
 
-    GD.Print(WaitTime);
+    // GD.Print(WaitTime);
   }
 
 }
