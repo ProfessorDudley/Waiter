@@ -54,14 +54,29 @@ public partial class Player : Node2D
 			// If the waiter is holding foods
 			if (Tray.Count > 0)
 			{
-// Award Points
-GameInstance.AwardPoints(10 * Tray.Count);
-foreach (Food food in Tray)
-{
+				// Award Points
+				switch (Tray.Count)
+				{
+					case 1:
+						GameInstance.AwardPoints(10);
+						break;
+
+					case 2:
+						GameInstance.AwardPoints(10);
+						break;
+					case 3:
+						GameInstance.AwardPoints(50);
+						break;
+					default:
+						GD.PrintErr("This should never happen!");
+						break;
+				}
+				foreach (Food food in Tray)
+				{
 					GetNode<AudioStreamPlayer2D>("AddPoints").Play();
 					food.QueueFree();
-}
-Tray.Clear();
+				}
+				Tray.Clear();
 
 				// Reset
 				// collider.AreaEntered += OnAreaEntered;
@@ -78,7 +93,7 @@ Tray.Clear();
 				// Create Dollar Particle
 				Particle particle = new()
 				{
-					GlobalPosition = new(200,152),
+					GlobalPosition = new(200, 152),
 				};
 				GetTree().Root.AddChild(particle);
 
@@ -97,7 +112,7 @@ Tray.Clear();
 				// Update Score
 				GetNode<Label>("%Score").Text = GameInstance.Score.ToString();
 
-				
+
 			}
 		}
 		else
@@ -112,7 +127,7 @@ Tray.Clear();
 		Debug.Assert(body.GetParent().GetType() == typeof(Food), "Body must be of type Food");
 		food = (Food)body.GetParent();
 
-		
+
 		if (Tray.Count < 3)
 		{
 			// Handle attaching food to waiter.
@@ -138,8 +153,8 @@ Tray.Clear();
 			GetNode<AudioStreamPlayer2D>("Pickup").Play();
 			GetNode<AnimatedSprite2D>("AnimatedSprite2D").Animation = "carry";
 		}
-		
 
-		
+
+
 	}
 }
