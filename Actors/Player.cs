@@ -2,7 +2,6 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 public partial class Player : Node2D
 {
@@ -79,7 +78,7 @@ Tray.Clear();
 				// Create Dollar Particle
 				Particle particle = new()
 				{
-					GlobalPosition = food.GlobalPosition,
+					GlobalPosition = new(200,152),
 				};
 				GetTree().Root.AddChild(particle);
 
@@ -110,20 +109,37 @@ Tray.Clear();
 
 	private async void OnAreaEntered(Node2D body)
 	{
-		// Handle attaching food to waiter.
 		Debug.Assert(body.GetParent().GetType() == typeof(Food), "Body must be of type Food");
 		food = (Food)body.GetParent();
-		collider.AreaEntered -= OnAreaEntered;
-		Tray.Add(food);
 
-		// Need to defer Reparent call because physics apparently?
-		food.Attach();
-		food.CallDeferred("reparent", GetNode<Marker2D>("FoodRoot"), false);
-		food.Position = new(0, 0);
-		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-		collider.AreaEntered += OnAreaEntered;
-		GetNode<AudioStreamPlayer2D>("Pickup").Play();
+		
+		if (Tray.Count < 3)
+		{
+			// Handle attaching food to waiter.
+			foreach (Food f in Tray)
+			{
+				// Check each food on the tray and compare it to the 
+				// new food item. If it matches, return from the function.
+				if (food.GetNode<AnimatedSprite2D>("AnimatedSprite2D").Animation == f.GetNode<AnimatedSprite2D>("AnimatedSprite2D").Animation) return;
+			}
+			collider.AreaEntered -= OnAreaEntered;
+			Tray.Add(food);
+			GD.Print(food.GetNode<AnimatedSprite2D>("AnimatedSprite2D").Animation);
+			food.Attach();
+			// Need to defer Reparent call because physics apparently?
+			food.CallDeferred("reparent", GetNode<Marker2D>("FoodRoot"), false);
+			food.Position = new(0, 0);
 
-		GetNode<AnimatedSprite2D>("AnimatedSprite2D").Animation = "carry";
+			// Wait for the next process frame then reconnect to AreaEntered Signal
+			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+			collider.AreaEntered += OnAreaEntered;
+
+			// Flair
+			GetNode<AudioStreamPlayer2D>("Pickup").Play();
+			GetNode<AnimatedSprite2D>("AnimatedSprite2D").Animation = "carry";
+		}
+		
+
+		
 	}
 }

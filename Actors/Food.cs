@@ -6,6 +6,7 @@ public partial class Food : Node2D
 	GameTick tick;
 	private readonly Random random = new();
 	private bool isAttached;
+	// public string foodName;
 
 	public override void _Ready()
 	{
