@@ -3,7 +3,7 @@ using System;
 
 public partial class Conveyors : Node2D
 {
-  private float[] Belts = { 60.0f, 94.0f, 128.0f };
+  private float[] Belts = { 71.0f, 105.0f, 139.0f };
   private readonly Random random = new();
 
   public override void _Ready()

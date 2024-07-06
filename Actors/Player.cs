@@ -1,7 +1,10 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Diagnostics.Metrics;
+using System.Linq;
 
 public partial class Player : Node2D
 {
@@ -9,8 +12,8 @@ public partial class Player : Node2D
 	private int step = 0;
 	private int Step { get => step; set => step = Math.Clamp(value, 0, WaiterLocations.Length - 1); }
 	private Area2D collider;
-	private Food food;
-	private readonly List<Food> Tray = new();
+	private Tray tray;
+	private Food newFood;
 	private int hatCounter = 0;
 
 
@@ -20,9 +23,24 @@ public partial class Player : Node2D
 		Position = WaiterLocations[Step].GlobalPosition;
 		collider = GetNode<Area2D>("FoodCollider");
 		collider.AreaEntered += OnAreaEntered;
+		tray = GetNode<Tray>("%Tray");
+		GD.Print(tray);
 	}
 
-	public override void _Input(InputEvent @event)
+    public override void _Process(double delta)
+    {
+        if (tray.TrayItems.ContainsValue(true))
+				{
+					
+			tray.Visible = true;
+				}
+				else
+				{
+					tray.Visible = false;
+				}
+    }
+
+    public override void _Input(InputEvent @event)
 	{
 		// Handle Player movement input
 		if (@event.IsActionPressed("MoveUp") && Step != 0)
@@ -39,7 +57,8 @@ public partial class Player : Node2D
 			Position = WaiterLocations[Step].GlobalPosition;
 			GetNode<AudioStreamPlayer2D>("Steps").Play();
 		}
-
+		// Flip the sprite to face the conveyors
+		GetNode<AnimatedSprite2D>("AnimatedSprite2D").FlipH = true;
 
 
 
@@ -48,24 +67,23 @@ public partial class Player : Node2D
 		{
 			// Flip the sprite to face the table
 			GetNode<AnimatedSprite2D>("AnimatedSprite2D").FlipH = false;
-
-
+			GD.Print(tray.TrayItems.Count(x => x.Value is true));
 
 			// If the waiter is holding foods
-			if (Tray.Count > 0)
+			if (tray.TrayItems.ContainsValue(true))
 			{
 				// Award Points
-				switch (Tray.Count)
+				switch (tray.TrayItems.Count(x => x.Value is true))
 				{
 					case 1:
 						GameInstance.AwardPoints(10);
 						break;
 
 					case 2:
-						GameInstance.AwardPoints(10);
+						GameInstance.AwardPoints(20);
 						break;
 					case 3:
-						GameInstance.AwardPoints(50);
+						GameInstance.AwardPoints(100);
 						// Grow Hat
 						HatTopper topper = new()
 						{
@@ -86,47 +104,52 @@ public partial class Player : Node2D
 				GetTree().Root.AddChild(particle);
 				GetNode<AudioStreamPlayer2D>("AddPoints").Play();
 				// Update Score
-				GetNode<Label>("%Score").Text = GameInstance.Score.ToString();
+				GetNode<Label>("/root/Game/Score").Text = GameInstance.Score.ToString();
 
-				// Clear the tray
-				foreach (Food food in Tray)
-				{
-					food.QueueFree();
-				}
-				Tray.Clear();
 
 				// Reset
+				// Clear the tray
+				foreach (string foodName in tray.TrayItems.Keys)
+				{
+					tray.TrayItems[foodName] = false;
+				}
 				GetNode<AnimatedSprite2D>("AnimatedSprite2D").Animation = "default";
+				tray.Visible = false;
 			}
 		}
-		else
-		{
-			// Flip the sprite to face the conveyors
-			GetNode<AnimatedSprite2D>("AnimatedSprite2D").FlipH = true;
-		}
-	}
 
+		// If Waiter is at counter
+		if (Step == 0)
+		{
+			// Flip the sprite to face the table
+			GetNode<AnimatedSprite2D>("AnimatedSprite2D").FlipH = false;
+			Tray Counter = GetNode<Tray>("/root/Game/Conveyors/Counter/Tray");
+		
+			
+		}
+
+	}
 	private async void OnAreaEntered(Node2D body)
 	{
 		Debug.Assert(body.GetParent().GetType() == typeof(Food), "Body must be of type Food");
-		food = (Food)body.GetParent();
+		newFood = (Food)body.GetParent();
 
 
-		if (Tray.Count < 3)
+		if (tray.TrayItems.ContainsValue(false)) // If we have space on our tray
 		{
-			// Handle attaching food to waiter.
-			foreach (Food f in Tray)
-			{
-				// Check each food on the tray and compare it to the 
-				// new food item. If it matches, return from the function.
-				if (food.foodName == f.foodName) return;
-			}
+			// is the newFood already on the tray?
+			// If yes, skip the rest of the function.
+			if (tray.TrayItems[newFood.foodName]) return;
+
+			// Only run if food collected is unique to the tray.
+			// Disable collider to prevent further funny business.
 			collider.AreaEntered -= OnAreaEntered;
-			Tray.Add(food);
-			food.Attach();
-			// Need to defer Reparent call because physics apparently?
-			food.CallDeferred("reparent", GetNode<Marker2D>("FoodRoot"), false);
-			food.Position = new(0, 0);
+
+			// Add newFood to the tray.
+			tray.AddToTray(new(){newFood.foodName});
+
+			// Delete the food item object. We don't need the physical actor anymore.
+			newFood.QueueFree();
 
 			// Wait for the next process frame then reconnect to AreaEntered Signal
 			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);

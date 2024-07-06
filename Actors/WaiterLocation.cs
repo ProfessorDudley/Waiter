@@ -1,19 +1,34 @@
 using Godot;
-using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 
-public partial class WaiterLocation : Marker2D, IConveyor
+public partial class WaiterLocation : Marker2D
 {
-  [Export] private bool isTable;
+  private List<Food> _foods  = new();
 
-  public void OnConveyorOverlap(Node body)
+  // [Export] private bool isTable;
+  public List<Food> Foods
   {
-    Debug.Assert(body.GetType() == typeof(Player), "body must be the player");
+    get
+    {
+      return _foods;
+    }
+    set
+    {
+      _foods = value;
+      foreach (Food food in _foods)
+      {
+        GetNode<AnimatedSprite2D>($"/root/Game/SlotsRoot/{food.foodName}").Modulate = new Color(1, 1, 1, 1);
+      }
+
+    }
   }
 
-}
-
-interface IConveyor
-{
-  void OnConveyorOverlap(Node body);
+  public void EmptyCounter()
+  {
+    foreach (Food food in _foods)
+    {
+      GetNode<AnimatedSprite2D>($"/root/Game/SlotsRoot/{food.foodName}").Modulate = new Color(1, 1, 1, 1);
+      Foods.Clear();
+    }
+  }
 }

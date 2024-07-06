@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5aqwdswv1lf2"]
+
+[ext_resource type="SpriteFrames" uid="uid://l7malfwfla2a" path="res://Assets/Images/FoodSprites.tres" id="1_e1t4m"]
+[ext_resource type="Script" path="res://Actors/Tray.cs" id="1_vvoiq"]
+
+[node name="Tray" type="Node2D"]
+position = Vector2(0, -8)
+script = ExtResource("1_vvoiq")
+
+[node name="drink" type="AnimatedSprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.235294)
+position = Vector2(-2, -8)
+sprite_frames = ExtResource("1_e1t4m")
+animation = &"drink"
+
+[node name="bowl" type="AnimatedSprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.235294)
+position = Vector2(6, -8)
+sprite_frames = ExtResource("1_e1t4m")
+animation = &"bowl"
+
+[node name="plate" type="AnimatedSprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.235294)
+position = Vector2(-6, -8)
+sprite_frames = ExtResource("1_e1t4m")
+animation = &"plate"

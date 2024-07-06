@@ -1,11 +1,11 @@
 [gd_scene load_steps=13 format=3 uid="uid://bxvarng0iket0"]
 
 [ext_resource type="Script" path="res://Actors/Player.cs" id="1_tkim8"]
-[ext_resource type="Texture2D" uid="uid://pxdmsypbuie2" path="res://Assets/Images/WaiterClassic.PNG" id="2_hs6s1"]
 [ext_resource type="Texture2D" uid="uid://bdmr4rm3oac54" path="res://Assets/Images/Player.png" id="2_w1wvt"]
 [ext_resource type="AudioStream" uid="uid://co6i85bj1kk6g" path="res://Assets/Audio/Sprite_Steps.WAV" id="3_c8spy"]
 [ext_resource type="AudioStream" uid="uid://dcql0nrbh511y" path="res://Assets/Audio/Food_Delivered.WAV" id="4_dejgs"]
 [ext_resource type="AudioStream" uid="uid://c05v2snl3ehp8" path="res://Assets/Audio/Plate_Pick_Up.WAV" id="5_rucs0"]
+[ext_resource type="PackedScene" uid="uid://b5aqwdswv1lf2" path="res://Actors/tray.tscn" id="6_4hl8l"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m7w88"]
 atlas = ExtResource("2_w1wvt")
@@ -71,16 +71,12 @@ flip_h = true
 position = Vector2(0, -8)
 
 [node name="FoodCollider" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FoodCollider"]
 position = Vector2(-3.8147e-05, -16)
 rotation = -1.57079
 shape = SubResource("CapsuleShape2D_sjamf")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-visible = false
-scale = Vector2(-0.678, 0.678)
-texture = ExtResource("2_hs6s1")
 
 [node name="Steps" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_c8spy")
@@ -93,3 +89,8 @@ bus = &"SFX"
 [node name="Pickup" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_rucs0")
 bus = &"SFX"
+
+[node name="Tray" parent="." instance=ExtResource("6_4hl8l")]
+unique_name_in_owner = true
+
+[editable path="Tray"]
