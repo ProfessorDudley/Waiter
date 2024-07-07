@@ -42,9 +42,11 @@ public partial class Player : Node2D
 
     public override void _Input(InputEvent @event)
 	{
+		
 		// Handle Player movement input
 		if (@event.IsActionPressed("MoveUp") && Step != 0)
 		{
+			GD.PrintRich($"[b]{@event}[/b]");
 			// Move Up
 			Step -= 1;
 			Position = WaiterLocations[Step].GlobalPosition;
@@ -52,6 +54,7 @@ public partial class Player : Node2D
 		}
 		else if (@event.IsActionPressed("MoveDown") && Step != WaiterLocations.Length - 1)
 		{
+			GD.PrintRich($"[b]{@event}[/b]");
 			// Move Down
 			Step += 1;
 			Position = WaiterLocations[Step].GlobalPosition;
@@ -59,7 +62,6 @@ public partial class Player : Node2D
 		}
 		// Flip the sprite to face the conveyors
 		GetNode<AnimatedSprite2D>("AnimatedSprite2D").FlipH = true;
-
 
 
 		// If Waiter is at table
@@ -119,13 +121,52 @@ public partial class Player : Node2D
 		}
 
 		// If Waiter is at counter
-		if (Step == 0)
+		if (@event.IsActionPressed("MoveUp") && Step == 0)
 		{
-			// Flip the sprite to face the table
+			// Flip the sprite to face the counter
 			GetNode<AnimatedSprite2D>("AnimatedSprite2D").FlipH = false;
-			Tray Counter = GetNode<Tray>("/root/Game/Conveyors/Counter/Tray");
+			Tray counter = GetNode<Tray>("/root/Game/Conveyors/Counter/Tray");
 		
 			
+			// Logic for storing items on the counter.
+			if (tray.TrayItems.ContainsValue(true)) // If the Waiter is holding food
+			{
+				List<string> movedItems = new();
+
+				// Find which items can be moved and move them
+				List<string> moveable = tray.TrayItems.Where(v => v.Value is true).Select(k => k.Key).ToList();
+				counter.AddToTray(moveable, out movedItems);
+
+				// remove moved items
+				tray.RemoveFromTray(movedItems);
+
+				// Update animation and tray visibility
+				if (!tray.TrayItems.ContainsValue(true)) 
+				{
+					GetNode<AnimatedSprite2D>("AnimatedSprite2D").Animation = "default";
+				  tray.Visible = false;
+				}
+			}
+
+			// Logic for retrieving items from the counter.
+			else if (!tray.TrayItems.ContainsValue(true)) // If there are no items on the tray.
+			{
+				List<string> movedItems = new();
+
+				// Find which items can be moved and move them
+				List<string> moveable = counter.TrayItems.Where(v => v.Value is true).Select(k => k.Key).ToList();
+				tray.AddToTray(moveable, out movedItems);
+
+				// remove moved items
+				counter.RemoveFromTray(movedItems);
+
+				// Update animation and tray visibility
+				if (tray.TrayItems.ContainsValue(true)) 
+				{
+					GetNode<AnimatedSprite2D>("AnimatedSprite2D").Animation = "carry";
+				  tray.Visible = true;
+				}
+			}
 		}
 
 	}
@@ -146,7 +187,7 @@ public partial class Player : Node2D
 			collider.AreaEntered -= OnAreaEntered;
 
 			// Add newFood to the tray.
-			tray.AddToTray(new(){newFood.foodName});
+			tray.AddToTray(new(){newFood.foodName}, out _);
 
 			// Delete the food item object. We don't need the physical actor anymore.
 			newFood.QueueFree();

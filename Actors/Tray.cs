@@ -21,18 +21,18 @@ public partial class Tray : Node2D
       }
     }
 
-    public List<string> AddToTray(List<string> foodNames)
+    public List<string> AddToTray(List<string> foodNames, out List<string> movedItems)
   {
-    List<string> movable = new();
+    movedItems = new();
     foreach (string foodName in foodNames)
     {
       if (trayItems[foodName] == false) 
       {
         trayItems[foodName] = true;
-        movable.Add(foodName);
+        movedItems.Add(foodName);
       }
     }
-    return movable;
+    return movedItems;
     
   }
   public void RemoveFromTray(List<string> foodNames)
