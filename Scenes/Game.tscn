@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://d3muvu4mrjrg4"]
+[gd_scene load_steps=13 format=3 uid="uid://d3muvu4mrjrg4"]
 
 [ext_resource type="Script" path="res://Globals/GameInstance.cs" id="1_w1bmu"]
 [ext_resource type="Texture2D" uid="uid://degstcnyrcsk5" path="res://Assets/Images/Tile.png" id="2_tknq8"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bg6wc6bq4h788" path="res://Actors/Conveyors.tscn" id="6_yyx7q"]
 [ext_resource type="PackedScene" uid="uid://bxvarng0iket0" path="res://Actors/Player.tscn" id="7_cfjo2"]
 [ext_resource type="PackedScene" uid="uid://b5aqwdswv1lf2" path="res://Actors/tray.tscn" id="8_lwdsr"]
+[ext_resource type="Script" path="res://Actors/TaskGenerator.cs" id="9_4llxs"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_m0nbv"]
 texture = ExtResource("2_tknq8")
@@ -106,3 +107,18 @@ offset_right = 232.0
 offset_bottom = 30.0
 text = "0"
 vertical_alignment = 1
+
+[node name="TaskGenerator" parent="." instance=ExtResource("8_lwdsr")]
+position = Vector2(103, 179)
+script = ExtResource("9_4llxs")
+
+[node name="drink" parent="TaskGenerator" index="0"]
+modulate = Color(1, 1, 1, 0.235294)
+
+[node name="bowl" parent="TaskGenerator" index="1"]
+position = Vector2(19, -8)
+
+[node name="plate" parent="TaskGenerator" index="2"]
+position = Vector2(-23, -8)
+
+[editable path="TaskGenerator"]

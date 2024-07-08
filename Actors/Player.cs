@@ -1,9 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
-using System.Diagnostics.Metrics;
 using System.Linq;
 
 public partial class Player : Node2D
@@ -15,6 +13,7 @@ public partial class Player : Node2D
 	private Tray tray;
 	private Food newFood;
 	private int hatCounter = 0;
+	private TaskGenerator Task;
 
 
 	public override void _Ready()
@@ -25,6 +24,7 @@ public partial class Player : Node2D
 		collider.AreaEntered += OnAreaEntered;
 		tray = GetNode<Tray>("%Tray");
 		GD.Print(tray);
+		Task = GetNode<TaskGenerator>("/root/Game/TaskGenerator");
 	}
 
     public override void _Process(double delta)
@@ -42,7 +42,6 @@ public partial class Player : Node2D
 
     public override void _Input(InputEvent @event)
 	{
-		
 		// Handle Player movement input
 		if (@event.IsActionPressed("MoveUp") && Step != 0)
 		{
@@ -93,6 +92,8 @@ public partial class Player : Node2D
 						};
 						GetTree().Root.AddChild(topper);
 						hatCounter++;
+						// Create a new Task when full meal is delivered.
+						Task.WriteTray(Task.NewTask().TrayItems);
 						break;
 					default:
 						GD.PrintErr("This should never happen!");

@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using System.Collections.Generic;
 
 public partial class Tray : Node2D
@@ -11,7 +10,7 @@ public partial class Tray : Node2D
       {"bowl", false },
     };
 
-    public Dictionary<string, bool> TrayItems { get => trayItems; private set => trayItems = value; }
+    public Dictionary<string, bool> TrayItems { get => trayItems; protected set => trayItems = value; }
 
     public override void _Process(double delta)
     {
