@@ -52,38 +52,31 @@ bus = &"Music"
 
 [node name="Conveyors" parent="." instance=ExtResource("6_yyx7q")]
 position = Vector2(0, 51)
-scale = Vector2(0.999999, 0.999999)
 metadata/_edit_vertical_guides_ = [51.0]
 metadata/_edit_horizontal_guides_ = [40.0]
 
 [node name="Counter" type="Marker2D" parent="Conveyors"]
 position = Vector2(181, 16)
-scale = Vector2(0.630314, 0.630314)
 script = ExtResource("5_wibsg")
 
 [node name="Tray" parent="Conveyors/Counter" instance=ExtResource("8_lwdsr")]
 unique_name_in_owner = true
-position = Vector2(39.6631, -4.75951)
-scale = Vector2(1.58651, 1.58651)
+position = Vector2(25, -3)
 
 [node name="Belt1" type="Marker2D" parent="Conveyors"]
 position = Vector2(157.303, 26.3032)
-scale = Vector2(0.630314, 0.630314)
 script = ExtResource("5_wibsg")
 
 [node name="Belt2" type="Marker2D" parent="Conveyors"]
 position = Vector2(157.303, 58.3032)
-scale = Vector2(0.630314, 0.630314)
 script = ExtResource("5_wibsg")
 
 [node name="Belt3" type="Marker2D" parent="Conveyors"]
 position = Vector2(157.303, 92.3032)
-scale = Vector2(0.630314, 0.630314)
 script = ExtResource("5_wibsg")
 
 [node name="Table" type="Marker2D" parent="Conveyors"]
 position = Vector2(181, 112)
-scale = Vector2(0.630314, 0.630314)
 script = ExtResource("5_wibsg")
 
 [node name="Player" parent="." node_paths=PackedStringArray("WaiterLocations") instance=ExtResource("7_cfjo2")]

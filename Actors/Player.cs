@@ -10,10 +10,11 @@ public partial class Player : Node2D
 	private int step = 0;
 	private int Step { get => step; set => step = Math.Clamp(value, 0, WaiterLocations.Length - 1); }
 	private Area2D collider;
-	private Tray tray;
+	private Tray Tray;
 	private Food newFood;
 	private int hatCounter = 0;
 	private TaskGenerator Task;
+	private int DeliveryAttempts = 0;
 
 
 	public override void _Ready()
@@ -22,24 +23,24 @@ public partial class Player : Node2D
 		Position = WaiterLocations[Step].GlobalPosition;
 		collider = GetNode<Area2D>("FoodCollider");
 		collider.AreaEntered += OnAreaEntered;
-		tray = GetNode<Tray>("%Tray");
+		Tray = GetNode<Tray>("%Tray");
 		Task = GetNode<TaskGenerator>("/root/Game/TaskGenerator");
 	}
 
-    public override void _Process(double delta)
-    {
-        if (tray.TrayItems.ContainsValue(true))
-				{
-					
-			tray.Visible = true;
-				}
-				else
-				{
-					tray.Visible = false;
-				}
-    }
+	public override void _Process(double delta)
+	{
+		if (Tray.TrayItems.ContainsValue(true))
+		{
 
-    public override void _Input(InputEvent @event)
+			Tray.Visible = true;
+		}
+		else
+		{
+			Tray.Visible = false;
+		}
+	}
+
+	public override void _Input(InputEvent @event)
 	{
 		// Handle Player movement input
 		if (@event.IsActionPressed("MoveUp") && Step != 0)
@@ -67,34 +68,60 @@ public partial class Player : Node2D
 			GetNode<AnimatedSprite2D>("AnimatedSprite2D").FlipH = false;
 
 			// If the waiter is holding foods
-			if (tray.TrayItems.ContainsValue(true))
+			if (Tray.TrayItems.ContainsValue(true))
 			{
-				// Award Points
-				switch (tray.TrayItems.Count(x => x.Value is true))
-				{
-					case 1:
-						GameInstance.AwardPoints(10);
-						break;
 
-					case 2:
-						GameInstance.AwardPoints(20);
-						break;
-					case 3:
-						GameInstance.AwardPoints(100);
-						// Grow Hat
-						HatTopper topper = new()
-						{
-							GlobalPosition = new(216, 143 - (hatCounter * 2))
-						};
-						GetTree().Root.AddChild(topper);
-						hatCounter++;
-						// Create a new Task when full meal is delivered.
-						Task.WriteTray(Task.NewTask().TrayItems);
-						break;
-					default:
-						GD.PrintErr("This should never happen!");
-						break;
+				DeliveryAttempts++;
+				// If what is on the tray matches what is requested
+				if (Tray.TrayItems.OrderBy(x => x.Key).SequenceEqual(Task.TrayItems.OrderBy(x => x.Key)))
+				{
+					GameInstance.AwardPoints(1000);
+					// Grow Hat
+					HatTopper topper = new()
+					{
+						GlobalPosition = new(216, 143 - (hatCounter * 2))
+					};
+					GetTree().Root.AddChild(topper);
+					hatCounter++;
+					// Clear task when order is delivered.
+					Task.WriteTray(new(){
+							{"drink", false},
+							{"plate", false},
+							{"bowl", false},
+						});
 				}
+				else
+				{
+					// Award Points
+					switch (Tray.TrayItems.Count(x => x.Value is true))
+					{
+						case 1:
+							GameInstance.AwardPoints(10);
+							break;
+
+						case 2:
+							GameInstance.AwardPoints(20);
+							break;
+						case 3:
+							GameInstance.AwardPoints(100);
+							// Create a new Task when full meal is delivered.
+							Task.WriteTray(Task.NewTask().TrayItems);
+							break;
+						default:
+							GD.PrintErr("This should never happen!");
+							break;
+					}
+					if (DeliveryAttempts > 2)
+					{
+						// Clear task if failed delivery in 3 attempts.
+						Task.WriteTray(new(){
+							{"drink", false},
+							{"plate", false},
+							{"bowl", false},
+						});
+					}
+				}
+
 				// Create Dollar Particle
 				Particle particle = new()
 				{
@@ -108,12 +135,12 @@ public partial class Player : Node2D
 
 				// Reset
 				// Clear the tray
-				foreach (string foodName in tray.TrayItems.Keys)
+				foreach (string foodName in Tray.TrayItems.Keys)
 				{
-					tray.TrayItems[foodName] = false;
+					Tray.TrayItems[foodName] = false;
 				}
 				GetNode<AnimatedSprite2D>("AnimatedSprite2D").Animation = "default";
-				tray.Visible = false;
+				Tray.Visible = false;
 			}
 		}
 
@@ -123,45 +150,45 @@ public partial class Player : Node2D
 			// Flip the sprite to face the counter
 			GetNode<AnimatedSprite2D>("AnimatedSprite2D").FlipH = false;
 			Tray counter = GetNode<Tray>("/root/Game/Conveyors/Counter/Tray");
-		
-			
+
+
 			// Logic for storing items on the counter.
-			if (tray.TrayItems.ContainsValue(true)) // If the Waiter is holding food
+			if (Tray.TrayItems.ContainsValue(true)) // If the Waiter is holding food
 			{
 				List<string> movedItems = new();
 
 				// Find which items can be moved and move them
-				List<string> moveable = tray.TrayItems.Where(v => v.Value is true).Select(k => k.Key).ToList();
+				List<string> moveable = Tray.TrayItems.Where(v => v.Value is true).Select(k => k.Key).ToList();
 				counter.AddToTray(moveable, out movedItems);
 
 				// remove moved items
-				tray.RemoveFromTray(movedItems);
+				Tray.RemoveFromTray(movedItems);
 
 				// Update animation and tray visibility
-				if (!tray.TrayItems.ContainsValue(true)) 
+				if (!Tray.TrayItems.ContainsValue(true))
 				{
 					GetNode<AnimatedSprite2D>("AnimatedSprite2D").Animation = "default";
-				  tray.Visible = false;
+					Tray.Visible = false;
 				}
 			}
 
 			// Logic for retrieving items from the counter.
-			else if (!tray.TrayItems.ContainsValue(true)) // If there are no items on the tray.
+			else if (!Tray.TrayItems.ContainsValue(true)) // If there are no items on the tray.
 			{
 				List<string> movedItems = new();
 
 				// Find which items can be moved and move them
 				List<string> moveable = counter.TrayItems.Where(v => v.Value is true).Select(k => k.Key).ToList();
-				tray.AddToTray(moveable, out movedItems);
+				Tray.AddToTray(moveable, out movedItems);
 
 				// remove moved items
 				counter.RemoveFromTray(movedItems);
 
 				// Update animation and tray visibility
-				if (tray.TrayItems.ContainsValue(true)) 
+				if (Tray.TrayItems.ContainsValue(true))
 				{
 					GetNode<AnimatedSprite2D>("AnimatedSprite2D").Animation = "carry";
-				  tray.Visible = true;
+					Tray.Visible = true;
 				}
 			}
 		}
@@ -173,18 +200,18 @@ public partial class Player : Node2D
 		newFood = (Food)body.GetParent();
 
 
-		if (tray.TrayItems.ContainsValue(false)) // If we have space on our tray
+		if (Tray.TrayItems.ContainsValue(false)) // If we have space on our tray
 		{
 			// is the newFood already on the tray?
 			// If yes, skip the rest of the function.
-			if (tray.TrayItems[newFood.foodName]) return;
+			if (Tray.TrayItems[newFood.foodName]) return;
 
 			// Only run if food collected is unique to the tray.
 			// Disable collider to prevent further funny business.
 			collider.AreaEntered -= OnAreaEntered;
 
 			// Add newFood to the tray.
-			tray.AddToTray(new(){newFood.foodName}, out _);
+			Tray.AddToTray(new() { newFood.foodName }, out _);
 
 			// Delete the food item object. We don't need the physical actor anymore.
 			newFood.QueueFree();
