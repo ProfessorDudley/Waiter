@@ -9,7 +9,6 @@ public partial class GameInstance : Node
 
 	public override void _Ready()
 	{
-		GD.PrintRich("[b]GameInstance.cs Loaded[/b]");
 		GetNode<Label>("%HighScore").Text = HighScore.ToString();
 		GetNode<GameTick>("/root/GameTick").Start();
 
@@ -18,8 +17,6 @@ public partial class GameInstance : Node
 	public static void AwardPoints(int points = 10)
 	{
 		Score += points;
-		GD.Print($"Added {points} points!");
-		GD.Print($"Points: {Score}");
 	}
 
 	public void GameOver()

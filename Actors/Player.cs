@@ -23,7 +23,6 @@ public partial class Player : Node2D
 		collider = GetNode<Area2D>("FoodCollider");
 		collider.AreaEntered += OnAreaEntered;
 		tray = GetNode<Tray>("%Tray");
-		GD.Print(tray);
 		Task = GetNode<TaskGenerator>("/root/Game/TaskGenerator");
 	}
 
@@ -45,7 +44,6 @@ public partial class Player : Node2D
 		// Handle Player movement input
 		if (@event.IsActionPressed("MoveUp") && Step != 0)
 		{
-			GD.PrintRich($"[b]{@event}[/b]");
 			// Move Up
 			Step -= 1;
 			Position = WaiterLocations[Step].GlobalPosition;
@@ -53,7 +51,6 @@ public partial class Player : Node2D
 		}
 		else if (@event.IsActionPressed("MoveDown") && Step != WaiterLocations.Length - 1)
 		{
-			GD.PrintRich($"[b]{@event}[/b]");
 			// Move Down
 			Step += 1;
 			Position = WaiterLocations[Step].GlobalPosition;
@@ -68,7 +65,6 @@ public partial class Player : Node2D
 		{
 			// Flip the sprite to face the table
 			GetNode<AnimatedSprite2D>("AnimatedSprite2D").FlipH = false;
-			GD.Print(tray.TrayItems.Count(x => x.Value is true));
 
 			// If the waiter is holding foods
 			if (tray.TrayItems.ContainsValue(true))
