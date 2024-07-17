@@ -22,6 +22,7 @@ buses/default_bus_layout="res://Globals/MainBusLayout.tres"
 [autoload]
 
 GameTick="*res://Globals/GameTick.cs"
+SaveGame="*res://Globals/SaveGame.cs"
 
 [display]
 

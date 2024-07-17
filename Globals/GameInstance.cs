@@ -9,6 +9,7 @@ public partial class GameInstance : Node
 
 	public override void _Ready()
 	{
+		HighScore = SaveGame.LoadScore();
 		GetNode<Label>("%HighScore").Text = HighScore.ToString();
 		GetNode<GameTick>("/root/GameTick").Start();
 
@@ -22,7 +23,7 @@ public partial class GameInstance : Node
 	public void GameOver()
 	{
 		GetNode<AnimatedSprite2D>("/root/Game/Player/AnimatedSprite2D").Animation = "fail";
-		if (Score > HighScore) HighScore = Score;
+		if (Score > HighScore) SaveGame.SaveScore(Score);
 		Node instance = GD.Load<PackedScene>("res://Menus/GameOverScreen.tscn").Instantiate();
 		GetTree().Root.AddChild(instance);
 		GetNode<GameTick>("/root/GameTick").Stop();
