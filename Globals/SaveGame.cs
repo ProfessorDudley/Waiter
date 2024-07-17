@@ -13,7 +13,7 @@ public partial class SaveGame : Node
     {
       return 0;
     }
-	using var saveGame = FileAccess.Open("res://savegame.data", FileAccess.ModeFlags.Read);
+	using var saveGame = FileAccess.Open("user://savegame.data", FileAccess.ModeFlags.Read);
   
 	return (int)saveGame.GetVar();
   }
