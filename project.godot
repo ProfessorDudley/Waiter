@@ -28,6 +28,7 @@ GameTick="*res://Globals/GameTick.cs"
 window/size/viewport_width=256
 window/size/viewport_height=192
 window/size/resizable=false
+window/size/borderless=true
 window/size/window_width_override=1024
 window/size/window_height_override=768
 window/stretch/mode="canvas_items"

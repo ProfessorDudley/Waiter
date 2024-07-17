@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Globals/GameInstance.cs" id="1_w1bmu"]
 [ext_resource type="Texture2D" uid="uid://degstcnyrcsk5" path="res://Assets/Images/Tile.png" id="2_tknq8"]
 [ext_resource type="Texture2D" uid="uid://bwktsvu4qyo8y" path="res://Assets/Images/Table.png" id="3_mn51s"]
-[ext_resource type="AudioStream" uid="uid://bm6ahfw8p50mi" path="res://Assets/Audio/Waiter_Reborn_0.5.mp3" id="4_vpkrf"]
+[ext_resource type="AudioStream" uid="uid://bykhb5r2cdhxq" path="res://Assets/Audio/GameplayMusic.mp3" id="4_s7usb"]
 [ext_resource type="Script" path="res://Actors/WaiterLocation.cs" id="5_wibsg"]
 [ext_resource type="PackedScene" uid="uid://bg6wc6bq4h788" path="res://Actors/Conveyors.tscn" id="6_yyx7q"]
 [ext_resource type="PackedScene" uid="uid://bxvarng0iket0" path="res://Actors/Player.tscn" id="7_cfjo2"]
@@ -46,7 +46,7 @@ layer_0/tile_data = PackedInt32Array(196623, 0, 0, 196622, 0, 0, 196621, 0, 0, 1
 
 [node name="Music" type="AudioStreamPlayer2D" parent="."]
 position = Vector2(1, 0)
-stream = ExtResource("4_vpkrf")
+stream = ExtResource("4_s7usb")
 autoplay = true
 bus = &"Music"
 

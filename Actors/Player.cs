@@ -72,6 +72,8 @@ public partial class Player : Node2D
 			{
 
 				DeliveryAttempts++;
+				GD.Print($"Delivery Attempts: {DeliveryAttempts}");
+
 				// If what is on the tray matches what is requested
 				if (Tray.TrayItems.OrderBy(x => x.Key).SequenceEqual(Task.TrayItems.OrderBy(x => x.Key)))
 				{
@@ -89,6 +91,8 @@ public partial class Player : Node2D
 							{"plate", false},
 							{"bowl", false},
 						});
+						DeliveryAttempts = 0;
+						GD.Print("Delivery Attempts Reset to 0 due to perfect meal");
 				}
 				else
 				{
@@ -106,6 +110,8 @@ public partial class Player : Node2D
 							GameInstance.AwardPoints(100);
 							// Create a new Task when full meal is delivered.
 							Task.WriteTray(Task.NewTask().TrayItems);
+						DeliveryAttempts = 0;
+						GD.Print("Delivery Attempts Reset to 0 due to New Task");
 							break;
 						default:
 							GD.PrintErr("This should never happen!");
@@ -119,6 +125,9 @@ public partial class Player : Node2D
 							{"plate", false},
 							{"bowl", false},
 						});
+						
+						DeliveryAttempts = 0;
+						GD.Print("Delivery Attempts Reset to 0 due to timeout");
 					}
 				}
 

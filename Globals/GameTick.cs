@@ -20,7 +20,7 @@ public partial class GameTick : Timer
 /// </summary>
   private void SpeedUp()
   {
-    if (!(WaitTime <= 0.9f))
+    if (!(WaitTime <= 1.25f))
     {
       WaitTime = Math.Round(WaitTime -= 0.025f, 3);
     }
